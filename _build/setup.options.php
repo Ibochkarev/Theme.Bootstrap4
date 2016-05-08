@@ -28,7 +28,7 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
 }
 
 $output = '';
-/*
+
 if (!$exists) {
 	switch ($modx->getOption('manager_language')) {
 		case 'ru':
@@ -38,14 +38,13 @@ if (!$exists) {
 			$output = 'This component requires <b>pdoTools</b> for fast work of snippets.<br/><br/>It will be automaticly downloaded and installed?';
 	}
 }
-*/
+
 
 if ($chunks) {
-	/*
+
 	if (!$exists) {
 		$output .= '<br/><br/>';
 	}
-	*/
 
 	switch ($modx->getOption('manager_language')) {
 		case 'ru':

@@ -47,6 +47,6 @@ class Theme.Bootstrap4HomeManagerController extends Theme.Bootstrap4MainControll
 	 * @return string
 	 */
 	public function getTemplateFile() {
-		return $this->Theme.Bootstrap4->config['templatesPath'] . 'home.tpl';
+		return $this->Theme.Bootstrap4->config['templatesPath'] . 'template.home.tpl';
 	}
 }
