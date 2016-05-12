@@ -52,27 +52,6 @@ $builder->registerNamespace(PKG_NAME_LOWER, false, true, PKG_NAMESPACE_PATH);
 
 $modx->log(modX::LOG_LEVEL_INFO, 'Created Transport Package and Namespace.');
 
-/* load system settings */
-if (defined('BUILD_SETTING_UPDATE')) {
-	$settings = include $sources['data'] . 'transport.settings.php';
-	if (!is_array($settings)) {
-		$modx->log(modX::LOG_LEVEL_ERROR, 'Could not package in settings.');
-	}
-	else {
-		$attributes = array(
-			xPDOTransport::UNIQUE_KEY => 'key',
-			xPDOTransport::PRESERVE_KEYS => true,
-			xPDOTransport::UPDATE_OBJECT => BUILD_SETTING_UPDATE,
-		);
-		foreach ($settings as $setting) {
-			$vehicle = $builder->createVehicle($setting, $attributes);
-			$builder->putVehicle($vehicle);
-		}
-		$modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($settings) . ' System Settings.');
-	}
-	unset($settings, $setting, $attributes);
-}
-
 /* load plugins events */
 if (defined('BUILD_EVENT_UPDATE')) {
 	$events = include $sources['data'] . 'transport.events.php';
@@ -143,35 +122,6 @@ if (defined('BUILD_POLICY_TEMPLATE_UPDATE')) {
 	unset ($templates, $template, $attributes);
 }
 
-/* load menus */
-if (defined('BUILD_MENU_UPDATE')) {
-	$menus = include $sources['data'] . 'transport.menu.php';
-	$attributes = array(
-		xPDOTransport::PRESERVE_KEYS => true,
-		xPDOTransport::UPDATE_OBJECT => BUILD_MENU_UPDATE,
-		xPDOTransport::UNIQUE_KEY => 'text',
-		xPDOTransport::RELATED_OBJECTS => true,
-		xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array(
-			'Action' => array(
-				xPDOTransport::PRESERVE_KEYS => false,
-				xPDOTransport::UPDATE_OBJECT => BUILD_ACTION_UPDATE,
-				xPDOTransport::UNIQUE_KEY => array('namespace', 'controller'),
-			),
-		),
-	);
-	if (is_array($menus)) {
-		foreach ($menus as $menu) {
-			$vehicle = $builder->createVehicle($menu, $attributes);
-			$builder->putVehicle($vehicle);
-			/* @var modMenu $menu */
-			$modx->log(modX::LOG_LEVEL_INFO, 'Packaged in menu "' . $menu->get('text') . '".');
-		}
-	}
-	else {
-		$modx->log(modX::LOG_LEVEL_ERROR, 'Could not package in menu.');
-	}
-	unset($vehicle, $menus, $menu, $attributes);
-}
 
 
 /* create category */
@@ -187,22 +137,6 @@ $attr = array(
 	xPDOTransport::RELATED_OBJECTS => true,
 );
 
-/* add snippets */
-if (defined('BUILD_SNIPPET_UPDATE')) {
-	$attr[xPDOTransport::RELATED_OBJECT_ATTRIBUTES]['Snippets'] = array(
-		xPDOTransport::PRESERVE_KEYS => false,
-		xPDOTransport::UPDATE_OBJECT => BUILD_SNIPPET_UPDATE,
-		xPDOTransport::UNIQUE_KEY => 'name',
-	);
-	$snippets = include $sources['data'] . 'transport.snippets.php';
-	if (!is_array($snippets)) {
-		$modx->log(modX::LOG_LEVEL_ERROR, 'Could not package in snippets.');
-	}
-	else {
-		$category->addMany($snippets);
-		$modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($snippets) . ' snippets.');
-	}
-}
 /* add templates */
 if (defined('BUILD_TEMPLATE_UPDATE')) {
 	$attr[xPDOTransport::RELATED_OBJECT_ATTRIBUTES]['Templates'] = array (
@@ -233,28 +167,6 @@ if (defined('BUILD_CHUNK_UPDATE')) {
 	else {
 		$category->addMany($chunks);
 		$modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($chunks) . ' chunks.');
-	}
-}
-
-/* add plugins */
-if (defined('BUILD_PLUGIN_UPDATE')) {
-	$attr[xPDOTransport::RELATED_OBJECT_ATTRIBUTES]['Plugins'] = array(
-		xPDOTransport::PRESERVE_KEYS => false,
-		xPDOTransport::UPDATE_OBJECT => BUILD_PLUGIN_UPDATE,
-		xPDOTransport::UNIQUE_KEY => 'name',
-	);
-	$attr[xPDOTransport::RELATED_OBJECT_ATTRIBUTES]['PluginEvents'] = array(
-		xPDOTransport::PRESERVE_KEYS => true,
-		xPDOTransport::UPDATE_OBJECT => BUILD_PLUGIN_UPDATE,
-		xPDOTransport::UNIQUE_KEY => array('pluginid', 'event'),
-	);
-	$plugins = include $sources['data'] . 'transport.plugins.php';
-	if (!is_array($plugins)) {
-		$modx->log(modX::LOG_LEVEL_ERROR, 'Could not package in plugins.');
-	}
-	else {
-		$category->addMany($plugins);
-		$modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($plugins) . ' plugins.');
 	}
 }
 
