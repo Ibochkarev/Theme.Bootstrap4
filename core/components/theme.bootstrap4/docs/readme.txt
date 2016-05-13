@@ -13,4 +13,4 @@ instead of default bootstrap template:
 Integrated with pdoTools. You do not need to install any additional snippets for basic functionality.
 
 Feel free to suggest ideas/improvements/bugs on GitHub:
-http://github.com/username/Theme.Bootstrap4/issues
+https://github.com/Ibochkarev/Theme.Bootstrap4/issues
