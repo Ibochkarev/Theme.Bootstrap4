@@ -17,10 +17,6 @@
     <link href="[[++assets_url]]components/theme.bootstrap4/css/styles.css" rel="stylesheet">
 </head>
 <body class="bg-faded">
-
-[[$ch.bt4.navbar?
-]]
-
 <header id="first">
     <div class="header-content">
         <div class="inner">
