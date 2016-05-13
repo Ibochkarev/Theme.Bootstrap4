@@ -8,7 +8,7 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
 		break;
 
 	case xPDOTransport::ACTION_UPGRADE:
-		//$exists = $modx->getObject('transport.modTransportPackage', array('package_name' => 'pdoTools'));
+		$exists = $modx->getObject('transport.modTransportPackage', array('package_name' => 'pdoTools'));
 		if (!empty($options['attributes']['chunks'])) {
 			$chunks = '<ul id="formCheckboxes" style="height:200px;overflow:auto;">';
 			foreach ($options['attributes']['chunks'] as $k => $v) {
@@ -29,7 +29,7 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
 
 $output = '';
 
-if (!$exists) {
+if ($exists <= 2) {
 	switch ($modx->getOption('manager_language')) {
 		case 'ru':
 			$output = 'Этот компонент требует <b>pdoTools</b> для быстрой работы сниппетов.<br/>Он будет автоматически скачан и установлен.';

@@ -7,6 +7,10 @@ $tmp = array(
 		'file' => 'home',
 		'description' => '',
 	),
+	'tpl.Theme.OnePageBootstrap' => array(
+		'file' => 'onepage',
+		'description' => 'Theme What\'s New in Bootstrap 4?',
+	)
 );
 
 foreach ($tmp as $k => $v) {

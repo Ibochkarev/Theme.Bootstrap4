@@ -52,26 +52,6 @@ $builder->registerNamespace(PKG_NAME_LOWER, false, true, PKG_NAMESPACE_PATH);
 
 $modx->log(modX::LOG_LEVEL_INFO, 'Created Transport Package and Namespace.');
 
-/* load plugins events */
-if (defined('BUILD_EVENT_UPDATE')) {
-	$events = include $sources['data'] . 'transport.events.php';
-	if (!is_array($events)) {
-		$modx->log(modX::LOG_LEVEL_ERROR, 'Could not package in events.');
-	}
-	else {
-		$attributes = array(
-			xPDOTransport::PRESERVE_KEYS => true,
-			xPDOTransport::UPDATE_OBJECT => BUILD_EVENT_UPDATE,
-		);
-		foreach ($events as $event) {
-			$vehicle = $builder->createVehicle($event, $attributes);
-			$builder->putVehicle($vehicle);
-		}
-		$modx->log(xPDO::LOG_LEVEL_INFO, 'Packaged in ' . count($events) . ' Plugins events.');
-	}
-	unset ($events, $event, $attributes);
-}
-
 /* package in default access policy */
 if (defined('BUILD_POLICY_UPDATE')) {
 	$attributes = array(
@@ -121,8 +101,6 @@ if (defined('BUILD_POLICY_TEMPLATE_UPDATE')) {
 	}
 	unset ($templates, $template, $attributes);
 }
-
-
 
 /* create category */
 $modx->log(xPDO::LOG_LEVEL_INFO, 'Created category.');
